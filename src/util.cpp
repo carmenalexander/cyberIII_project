@@ -322,6 +322,9 @@ int LogPrintStr(const std::string &str)
             // reopen the log file, if requested
             if (fReopenDebugLog) {
                 fReopenDebugLog = false;
+                if (GetBoolArg("-shrinkdebugfile", !fDebug)) {
+                    ShrinkDebugFile();
+                }
                 boost::filesystem::path pathDebug = GetDataDir() / "debug.log";
                 if (freopen(pathDebug.string().c_str(),"a",fileout) != NULL)
                     setbuf(fileout, NULL); // unbuffered
